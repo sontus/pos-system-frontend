@@ -2,6 +2,9 @@
     import { ref, onMounted } from 'vue';
     import axios from 'axios';
 
+    const config = useRuntimeConfig();
+    const apiBaseUrl = config.public.API_BASE_URL;
+
     const purchases = ref([]);
     const currentPage = ref(1);
     const lastPage = ref(1);
@@ -9,7 +12,7 @@
     // Fetch purchase
     const fetchPurchase = async (page = 1) => {
         try {
-            const response = await axios.get(`http://pos-system-api.test/api/v1/purchase?page=${page}`);
+            const response = await axios.get(`${apiBaseUrl}/purchase?page=${page}`);
             purchases.value = response.data.data;
             currentPage.value = response.data.current_page;
             lastPage.value = response.data.last_page;

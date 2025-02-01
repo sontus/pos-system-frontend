@@ -2,11 +2,13 @@
  import { ref, onMounted } from 'vue';
  import axios from 'axios';
 
+    const config = useRuntimeConfig();
+    const apiBaseUrl = config.public.API_BASE_URL;
     const dashboard = ref([]);
     
     const fetchPurchase = async (page = 1) => {
             try {
-                const response = await axios.get(`http://pos-system-api.test/api/v1/dashboard`);
+                const response = await axios.get(`${apiBaseUrl}/dashboard`);
                 dashboard.value = response.data;
             } catch (error) {
                 console.error('Error fetching purchase:', error);

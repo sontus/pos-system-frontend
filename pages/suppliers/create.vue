@@ -3,6 +3,8 @@
     import { useRouter } from 'vue-router';
     import axios from 'axios';
 
+    const config = useRuntimeConfig();
+    const apiBaseUrl = config.public.API_BASE_URL;
     const router = useRouter();
     const supplier = ref({
         name: '',
@@ -15,7 +17,7 @@
 
     onMounted(async () => {
         try {
-            const response = await axios.get('http://pos-system-api.test/api/v1/categories');
+            const response = await axios.get(`${apiBaseUrl}/categories`);
             categories.value = response.data.data;
         } catch (error) {
             console.error('Error fetching categories:', error);
@@ -25,7 +27,7 @@
     const createSupplier = async () => {
         try {
             loading.value = true;
-            await axios.post('http://pos-system-api.test/api/v1/supplier', supplier.value);
+            await axios.post(`${apiBaseUrl}/supplier`, supplier.value);
             router.push('/suppliers');
         } catch (error) {
             console.error('Error creating Supplier:', error);

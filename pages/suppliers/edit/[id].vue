@@ -3,6 +3,8 @@
     import { useRoute, useRouter } from 'vue-router';
     import axios from 'axios';
 
+    const config = useRuntimeConfig();
+    const apiBaseUrl = config.public.API_BASE_URL;
     const route = useRoute();
     const router = useRouter();
     const supplierId = route.params.id;
@@ -17,7 +19,7 @@
     // Fetch Supplier Details
     const fetchSupplier = async () => {
         try {
-            const response = await axios.get(`http://pos-system-api.test/api/v1/supplier?supplier_id=${supplierId}`);
+            const response = await axios.get(`${apiBaseUrl}/supplier?supplier_id=${supplierId}`);
             supplier.value = response.data.data[0];
 
         } catch (error) {
@@ -29,7 +31,7 @@
     // Update Supplier
     const updateSupplier = async () => {
         try {
-            await axios.put(`http://pos-system-api.test/api/v1/supplier/${supplierId}`, supplier.value);
+            await axios.put(`${apiBaseUrl}/supplier/${supplierId}`, supplier.value);
             alert('Supplier updated successfully!');
             router.push('/suppliers'); 
         } catch (error) {

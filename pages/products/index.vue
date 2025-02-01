@@ -1,7 +1,11 @@
 <script setup>
     import { ref, onMounted } from 'vue';
     import axios from 'axios';
+    
 
+    const config = useRuntimeConfig();
+    const apiBaseUrl = config.public.API_BASE_URL;
+    
     const products = ref([]);
     const currentPage = ref(1);
     const lastPage = ref(1);
@@ -9,7 +13,8 @@
     // Fetch products
     const fetchProducts = async (page = 1) => {
         try {
-            const response = await axios.get(`http://pos-system-api.test/api/v1/products?page=${page}`);
+            console.log('apiBaseUrl', apiBaseUrl);
+            const response = await axios.get(`${apiBaseUrl}/products?page=${page}`);
             products.value = response.data.data;
             currentPage.value = response.data.current_page;
             lastPage.value = response.data.last_page;
@@ -23,7 +28,7 @@
         if (!confirm('Are you sure you want to delete this product?')) return;
 
         try {
-            await axios.delete(`http://pos-system-api.test/api/v1/products/${id}`);
+            await axios.delete(`${apiBaseUrl}/products/${id}`);
             products.value = products.value.filter(product => product.product_id !== id);
         } catch (error) {
             console.error('Error deleting product:', error);

@@ -3,6 +3,8 @@ import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 
+const config = useRuntimeConfig();
+const apiBaseUrl = config.public.API_BASE_URL;
 const route = useRoute();
 const router = useRouter();
 const productId = route.params.id;
@@ -23,7 +25,7 @@ const errors = ref({}); // Store validation errors
 // Fetch Product Details
 const fetchProduct = async () => {
     try {
-        const response = await axios.get(`http://pos-system-api.test/api/v1/products?product_id=${productId}`);
+        const response = await axios.get(`${apiBaseUrl}/products?product_id=${productId}`);
         product.value = response.data.data[0];
     } catch (error) {
         console.error('Error fetching product:', error);
@@ -33,7 +35,7 @@ const fetchProduct = async () => {
 // Fetch Categories
 const fetchCategories = async () => {
     try {
-        const response = await axios.get('http://pos-system-api.test/api/v1/categories');
+        const response = await axios.get(`${apiBaseUrl}/categories`);
         categories.value = response.data.data;
     } catch (error) {
         console.error('Error fetching categories:', error);
@@ -44,7 +46,7 @@ const fetchCategories = async () => {
 const updateProduct = async () => {
     errors.value = {}; // Reset errors before request
     try {
-        await axios.put(`http://pos-system-api.test/api/v1/products/${productId}`, product.value);
+        await axios.put(`${apiBaseUrl}/products/${productId}`, product.value);
         alert('Product updated successfully!');
         router.push('/products'); // Redirect to product list
     } catch (error) {

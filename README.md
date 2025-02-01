@@ -26,18 +26,26 @@ Make sure to install dependencies:
 npm install
 ```
 
-### 3. Development Server
+
+### 3. Setup API URL 
+
+copy .env.example to .env and set backend url on .env
+
+``` 
+NUXT_PUBLIC_API_BASE_URL=http://pos-system-api.test/api/v1
+```
+```bash
+cp .env.example .env
+```
+### 4. Development Server
 
 Start the development server on `http://localhost:3000`:
 
 ```bash
 # npm
 npm run dev
-
-
 ```
-
-### 4. Production
+### 5. Production
 
 Build the application for production:
 

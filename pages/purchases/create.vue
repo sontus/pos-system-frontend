@@ -3,6 +3,8 @@ import { ref, computed, onMounted } from "vue";
 import { useRouter } from 'vue-router';
 import axios from "axios";
 
+  const config = useRuntimeConfig();
+  const apiBaseUrl = config.public.API_BASE_URL;
   const router = useRouter();
   const suppliers = ref([]);
   const products = ref([]);
@@ -16,6 +18,7 @@ import axios from "axios";
     total_price: 0
   }]);
 
+  
   const isSubmitting = ref(false);
   const errorMessage = ref(null);
 
@@ -23,11 +26,11 @@ import axios from "axios";
   const fetchData = async () => {
     try {
       // Fetch suppliers
-      const supplierResponse = await axios.get(`http://pos-system-api.test/api/v1/supplier`);
+      const supplierResponse = await axios.get(`${apiBaseUrl}/supplier`);
       suppliers.value = supplierResponse.data.data;
 
       // Fetch products
-      const productResponse = await axios.get(`http://pos-system-api.test/api/v1/products`);
+      const productResponse = await axios.get(`${apiBaseUrl}/products`);
       products.value = productResponse.data.data;
     } catch (error) {
       errorMessage.value = "Failed to load suppliers or products.";
@@ -87,7 +90,7 @@ import axios from "axios";
         items: purchaseItems.value,
       };
 
-      await axios.post("http://pos-system-api.test/api/v1/purchase", payload);
+      await axios.post(`${apiBaseUrl}/purchase`, payload);
       selectedSupplier.value = null;
       purchaseItems.value = [{ product_id: "", quantity: 1, price: 0, total_price: 0 }];
       router.push('/purchases');

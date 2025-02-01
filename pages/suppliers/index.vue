@@ -2,6 +2,9 @@
     import { ref, onMounted } from 'vue';
     import axios from 'axios';
 
+    const config = useRuntimeConfig();
+    const apiBaseUrl = config.public.API_BASE_URL;
+
     const suppliers = ref([]);
     const currentPage = ref(1);
     const lastPage = ref(1);
@@ -9,7 +12,7 @@
     // Fetch suppliers
     const fetchSuppliers = async (page = 1) => {
         try {
-            const response = await axios.get(`http://pos-system-api.test/api/v1/supplier?page=${page}`);
+            const response = await axios.get(`${apiBaseUrl}/supplier?page=${page}`);
             suppliers.value = response.data.data;
             currentPage.value = response.data.current_page;
             lastPage.value = response.data.last_page;
@@ -23,7 +26,7 @@
         if (!confirm('Are you sure you want to delete this supplier?')) return;
 
         try {
-            await axios.delete(`http://pos-system-api.test/api/v1/supplier/${id}`);
+            await axios.delete(`${apiBaseUrl}/supplier/${id}`);
             suppliers.value = suppliers.value.filter(supplier => supplier.supplier_id !== id);
         } catch (error) {
             console.error('Error deleting supplier:', error);
