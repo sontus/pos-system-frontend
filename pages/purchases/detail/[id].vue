@@ -27,14 +27,14 @@
     });
 </script>
 <template>
-  <div class="p-6">
-    <h1 class="text-2xl font-semibold mb-4">Purchase Details</h1>
-    
-    <!-- Error Message -->
-    <div v-if="errorMessage" class="text-center text-red-600">{{ errorMessage }}</div>
-
-    <!-- Purchase Details -->
-    <div v-if="purchase" class="bg-white p-6 rounded-lg shadow-md">
+  <div class="bg-white p-6 rounded-lg shadow-md  mx-auto">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-semibold">Purchases Details</h2>
+      <NuxtLink to="/purchases" class="bg-blue-800 text-white px-4 py-2 rounded-md hover:bg-blue-700">Purchases List
+      </NuxtLink>
+    </div>
+<!-- Purchase Details -->
+<div v-if="purchase" class="bg-white p-6 ">
       <!-- Supplier Info -->
       <h2 class="text-xl font-semibold mb-2">Supplier Details</h2>
       <div class="mb-4">
@@ -45,7 +45,7 @@
 
       <!-- Purchase Summary -->
       <h2 class="text-xl font-semibold mb-2">Purchase Summary</h2>
-      <p><strong>Total Amount:</strong> ${{ purchase.total_amount }}</p>
+      <p><strong>Total Amount:</strong> {{ purchase.total_amount }}</p>
       <p><strong>Purchase Date:</strong> {{ purchase.purchase_date }}</p>
 
       <!-- Purchased Items Table -->
@@ -69,6 +69,12 @@
             <td class="border border-gray-300 px-4 py-2 text-right">{{ item.total_price }}</td>
           </tr>
         </tbody>
+        <tfoot>
+          <tr>
+            <td class="border border-gray-300 px-4 py-2 text-right" colspan="4">Total Amount</td>
+            <td class="border border-gray-300 px-4 py-2 text-right">{{ purchase.total_amount }}</td>
+          </tr>
+        </tfoot>
       </table>
     </div>
   </div>

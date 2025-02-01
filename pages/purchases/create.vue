@@ -1,6 +1,9 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
+import { useRouter } from 'vue-router';
 import axios from "axios";
+
+  const router = useRouter();
   const suppliers = ref([]);
   const products = ref([]);
   const selectedSupplier = ref(null);
@@ -87,6 +90,7 @@ import axios from "axios";
       await axios.post("http://pos-system-api.test/api/v1/purchase", payload);
       selectedSupplier.value = null;
       purchaseItems.value = [{ product_id: "", quantity: 1, price: 0, total_price: 0 }];
+      router.push('/purchases');
     } catch (error) {
     } finally {
       isSubmitting.value = false;
